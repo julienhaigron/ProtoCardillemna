@@ -188,6 +188,55 @@ MonoBehaviour:
       hasChanged: 0
   attachedRenderer:
   - {fileID: 3872984169247440453}
+--- !u!1 &2368188371134560589
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4938529905437537731}
+  - component: {fileID: 6728099169153166779}
+  m_Layer: 0
+  m_Name: Reward
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4938529905437537731
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2368188371134560589}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -5.53}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3909976924505713551}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6728099169153166779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2368188371134560589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfb78c12b8842104a90b4c5a8d946eec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 3
+  m_isFacingDown: 0
+  m_parent: {fileID: 4938529905437537731}
+  m_cardOffset: {x: 2.5, y: 0, z: 0}
+  m_firstCardPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &2483945732199608688
 GameObject:
   m_ObjectHideFlags: 0
@@ -465,6 +514,7 @@ Transform:
   - {fileID: 1508951048554738605}
   - {fileID: 7190912687637499041}
   - {fileID: 4109432134278590405}
+  - {fileID: 4938529905437537731}
   - {fileID: 4584466788200484395}
   - {fileID: 9160029039350633408}
   - {fileID: 4780272097215973620}
@@ -485,7 +535,7 @@ MonoBehaviour:
   m_cardManager: {fileID: 7698039835017045466}
   m_mapManager: {fileID: 5277506298288168447}
   m_turnManager: {fileID: 4916259074552125741}
-  m_thisLevel: {fileID: 11400000, guid: 54dcb67f5d52c104c967967575eb5eda, type: 2}
+  m_levels: []
   m_thisPlayerConfig: {fileID: 11400000, guid: 3304b82e6633bf442a2b6bfd197001e8, type: 2}
   entityCard: {fileID: 988716584077249869, guid: bfb7bd3d76c543e47b3530641b38b703, type: 3}
   baseActionCardPrefab: {fileID: 4460211231662751313, guid: 149879d98ee72654cabc176b1d825ab7, type: 3}
@@ -519,6 +569,7 @@ MonoBehaviour:
   m_drawPile: {fileID: 2687639819650300551}
   m_discardPile: {fileID: 6202734658445803199}
   m_cardInTargetSelectionPosition: {fileID: 4584466788200484395}
+  m_rewardStack: {fileID: 6728099169153166779}
   m_maxHandSize: 5
 --- !u!114 &4916259074552125741
 MonoBehaviour:

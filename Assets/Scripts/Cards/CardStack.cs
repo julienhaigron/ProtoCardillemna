@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CardStack : MonoBehaviour
 {
-    public enum StackType { Discard, Deck, Hand}
+    public enum StackType { Discard, Deck, Hand, Reward}
     public StackType type;
 
     protected List<ActionCard> m_cards = new();
@@ -35,6 +35,11 @@ public class CardStack : MonoBehaviour
 
         return card;
     }
+
+    public bool RemoveCard(ActionCard _card )
+	{
+        return m_cards.Remove(_card);
+	}
 
     public List<ActionCard> ExtractAll ()
     {
@@ -69,7 +74,7 @@ public class CardStack : MonoBehaviour
         int cardCount = 0;
         foreach(ActionCard card in m_cards)
 		{
-            card.GoToPosition(transform.position + m_firstCardPosition + (cardCount++ * m_cardOffset), Quaternion.identity, 1f);
+            card.GoToPosition(transform.position + m_firstCardPosition + (cardCount++ * m_cardOffset), m_isFacingDown ? Quaternion.Euler(0, 180f, 0) : Quaternion.identity, 1f);
         }
     }
 

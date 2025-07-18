@@ -364,6 +364,10 @@ PrefabInstance:
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 7041632254620065159, guid: 6172d5c36d51c82469291a990f87d7fe, type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -421,6 +425,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4514131462301842130, guid: 831dbcf23a266734f9d855d19ac7b90a, type: 3}
+      propertyPath: m_levels.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4514131462301842130, guid: 831dbcf23a266734f9d855d19ac7b90a, type: 3}
+      propertyPath: 'm_levels.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 54dcb67f5d52c104c967967575eb5eda, type: 2}
+    - target: {fileID: 4514131462301842130, guid: 831dbcf23a266734f9d855d19ac7b90a, type: 3}
+      propertyPath: 'm_levels.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 54dcb67f5d52c104c967967575eb5eda, type: 2}
+    - target: {fileID: 4514131462301842130, guid: 831dbcf23a266734f9d855d19ac7b90a, type: 3}
+      propertyPath: 'm_levels.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 54dcb67f5d52c104c967967575eb5eda, type: 2}
     - target: {fileID: 5620009607026938146, guid: 831dbcf23a266734f9d855d19ac7b90a, type: 3}
       propertyPath: m_Name
       value: GameManager

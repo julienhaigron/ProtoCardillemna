@@ -29,7 +29,7 @@ public class TurnManager : MonoBehaviour
 			m_enemies.Remove(_entity);
 
 		if (m_enemies.Count == 0)
-			EndGame(true);
+			GameManager.Instance.EndGame(true);
 	}
 
 	private void OnUseCardEnd (ActionCard _card)
@@ -67,13 +67,7 @@ public class TurnManager : MonoBehaviour
 		if (m_player.IsAlive)
 			NewTurn();
 		else
-			EndGame(false);
-	}
-
-	public void EndGame(bool _didPlayerWin )
-	{
-		//display who wins
-		UIManager.Instance.OpenPopup<GameResultPopup>().Init(_didPlayerWin);
+			GameManager.Instance.EndGame(false);
 	}
 
 }

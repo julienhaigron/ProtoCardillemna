@@ -10,6 +10,7 @@ public class CardManager : MonoBehaviour
     [SerializeField] private CardStack m_drawPile;
     [SerializeField] private CardStack m_discardPile;
     [SerializeField] private Transform m_cardInTargetSelectionPosition;
+    [SerializeField] private CardStack m_rewardStack;
 
     [SerializeField] private int m_maxHandSize = 5;
 
@@ -91,6 +92,13 @@ public class CardManager : MonoBehaviour
         m_hand.UpdateVisuals();
     }
 
+    public void EndGame ()
+    {
+        List<ActionCard> discarded = m_hand.ExtractAll();
+        m_drawPile.Shuffle(discarded);
+        m_drawPile.UpdateVisuals();
+    }
+
     public void SetActionCardInSelection(ActionCard _card )
 	{
         m_cardInTargetSelection = _card;
@@ -108,4 +116,34 @@ public class CardManager : MonoBehaviour
         }
 
     }
+
+	#region BetweenGame
+
+    public void DisplayReward (LevelRewardData _data)
+	{
+        foreach(ActionCardData cardData in _data.cards)
+		{
+            ActionCard card = Instantiate(GameManager.Instance.baseActionCardPrefab, m_rewardStack.transform.position, Quaternion.identity, m_hand.transform);
+            card.Init(cardData);
+            m_rewardStack.AddCard(card);
+		}
+
+        m_rewardStack.UpdateVisuals();
+    }
+
+    public void ChooseReward(ActionCard _reward )
+	{
+        m_rewardStack.RemoveCard(_reward);
+        foreach(ActionCard card in m_rewardStack.ExtractAll())
+		{
+            Destroy(card.gameObject);
+		}
+
+        m_drawPile.AddCard(_reward);
+        m_drawPile.UpdateVisuals();
+        UIManager.Instance.ClosePopup<GameResultPopup>();
+        GameManager.Instance.StartNextGame();
+	}
+
+	#endregion
 }

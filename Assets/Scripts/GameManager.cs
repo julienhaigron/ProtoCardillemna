@@ -14,7 +14,7 @@ public class GameManager : Singleton<GameManager>
 	public TurnManager TurnManager => m_turnManager;
 
 	[Title("Parameters")]
-	[SerializeField] private MapData m_thisLevel;
+	[SerializeField] private List<MapData> m_levels;
 	[SerializeField] private PlayerConfig m_thisPlayerConfig;
 	public PlayerConfig PlayerConfig => m_thisPlayerConfig;
 
@@ -22,18 +22,43 @@ public class GameManager : Singleton<GameManager>
 	public EntityCard entityCard;
 	public ActionCard baseActionCardPrefab;
 
+	private GameState m_state;
+	public GameState State => m_state;
+	public enum GameState { Playing, Reward}
+
+	private int m_gameDoneCount = 0;
 
 	private void Start ()
 	{
-		StartGame();
+		m_cardManager.Init(m_thisPlayerConfig);
+		StartNextGame();
+	}
+
+	private void SetState(GameState _state )
+	{
+		m_state = _state;
 	}
 
 	[Button]
-    public void StartGame ()
+	public void StartNextGame ()
 	{
-		m_mapManager.GenerateMap(m_thisLevel);
-		m_cardManager.Init(m_thisPlayerConfig);
+		SetState(GameState.Playing);
+		m_mapManager.GenerateMap(m_levels[m_gameDoneCount]);
 
 		m_turnManager.StartGame();
+	}
+
+	public void EndGame ( bool _didPlayerWin )
+	{
+		//display who wins
+		SetState(GameState.Reward);
+		m_cardManager.EndGame();
+		UIManager.Instance.OpenPopup<GameResultPopup>().Init(_didPlayerWin);
+
+		if (_didPlayerWin)
+		{
+			m_mapManager.DiscardMap();
+			m_cardManager.DisplayReward(m_levels[m_gameDoneCount++].reward);
+		}
 	}
 }

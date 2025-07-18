@@ -10,6 +10,8 @@ public class MapData : ScriptableObject
     public RoomType[] rooms; // Tableau à une dimension pour une grille 2D
     public List<EntityData> enemies;
 
+    public LevelRewardData reward;
+
     public RoomType GetRoom ( int x, int y )
     {
         if (rooms == null || rooms.Length < y * width + x)

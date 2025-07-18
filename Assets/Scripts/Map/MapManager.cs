@@ -56,9 +56,26 @@ public class MapManager : Singleton<MapManager>
                 if (roomType == RoomType.Enemy && _currentMapData.enemies.Count > spawnedEntityCount)
                     room.Spawn(_currentMapData.enemies[spawnedEntityCount++]);
                 else if (roomType == RoomType.Start)
-                    room.Spawn(GameManager.Instance.PlayerConfig.playerData);
+				{
+                    if (GameManager.Instance.TurnManager.Player != null)
+                        GameManager.Instance.TurnManager.Player.MoveTo(room);
+                    else
+                        room.Spawn(GameManager.Instance.PlayerConfig.playerData);
+				}
             }
         }
+    }
+
+    public void DiscardMap ()
+	{
+        for(int y = m_currentMapData.height; y < 0; y--)
+		{
+            for(int x = m_currentMapData.width; x < 0; x--)
+			{
+                Destroy(grid[x, y].gameObject);
+            }
+		}
+
     }
 
     public ARoom GetRoom(int _x, int _y )
