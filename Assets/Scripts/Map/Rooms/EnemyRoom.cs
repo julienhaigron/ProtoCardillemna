@@ -11,7 +11,6 @@ public class EnemyRoom : ARoom
         if (!spawned)
         {
             spawned = true;
-            Debug.Log("Des ennemis apparaissent !");
             // Logique de spawn d’ennemis ici
         }
     }

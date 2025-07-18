@@ -22,4 +22,4 @@ MonoBehaviour:
   attackActionPoint: 1
   movementActionPoint: 2
   specialActionPoint: 1
-  hp: 2
+  hp: 3

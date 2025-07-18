@@ -73,7 +73,7 @@ public class TurnManager : MonoBehaviour
 	public void EndGame(bool _didPlayerWin )
 	{
 		//display who wins
-		Debug.Log(_didPlayerWin ? "Player" : "Ennemi" + " wins");
+		UIManager.Instance.OpenPopup<GameResultPopup>().Init(_didPlayerWin);
 	}
 
 }

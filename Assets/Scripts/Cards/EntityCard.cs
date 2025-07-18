@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using DG.Tweening;
+using TMPro;
 
 public class EntityCard : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class EntityCard : MonoBehaviour
 	public static Action<EntityCard> onDeath;
 
 	[SerializeField] private InstancedRenderer m_instancedRenderer;
+	[SerializeField] private TextMeshProUGUI m_hpTMP;
+	[SerializeField] private TextMeshProUGUI m_actionsTMP;
 	[SerializeField] private Vector3 m_entityPositionOffset;
 	public Vector3 EntityPositionOffset => m_entityPositionOffset;
 
@@ -25,14 +28,13 @@ public class EntityCard : MonoBehaviour
 	public ARoom CurrentRoom => m_currentRoom;
 
 	private Dictionary<ActionCardData.ActionCardType, int> m_currentActionPoints = new();
+	private Tween m_movementTween;
 
-	private Vector2Int[] directions = new Vector2Int[]
+	private void OnDestroy ()
 	{
-		Vector2Int.left,
-		Vector2Int.right,
-		Vector2Int.up,
-		Vector2Int.down
-	};
+		if (m_movementTween.IsActive())
+			m_movementTween.Kill();
+	}
 
 	public void Spawn ( EntityData _data, ARoom _room )
 	{
@@ -41,20 +43,27 @@ public class EntityCard : MonoBehaviour
 		m_currentRoom = _room;
 		m_currentHP = _data.hp;
 
-		m_instancedRenderer.SetColor("_Color", _data.isPlayer ? Color.blue : Color.red);
-
 		m_currentActionPoints.Add(ActionCardData.ActionCardType.Attack, 0);
 		m_currentActionPoints.Add(ActionCardData.ActionCardType.Movement, 0);
 		m_currentActionPoints.Add(ActionCardData.ActionCardType.Special, 0);
+
+		m_hpTMP.text = m_currentHP + "/" + _data.hp;
+		m_actionsTMP.text = m_currentActionPoints[ActionCardData.ActionCardType.Attack] 
+			+ "/" + m_currentActionPoints[ActionCardData.ActionCardType.Movement] 
+			+ "/" + m_currentActionPoints[ActionCardData.ActionCardType.Special];
+		m_instancedRenderer.SetColor("_Color", _data.isPlayer ? Color.blue : Color.red);
 
 		onSpawn?.Invoke(this);
 	}
 
 	public void MoveTo ( ARoom _room )
 	{
+		if (m_movementTween.IsActive())
+			m_movementTween.Kill();
+
 		m_currentRoom.OnEnter(null);
 		m_currentRoom = _room;
-		transform.DOMove(m_currentRoom.transform.position + m_entityPositionOffset, 1f).SetEase(Ease.Linear);
+		m_movementTween = transform.DOMove(m_currentRoom.transform.position + m_entityPositionOffset, 1f).SetEase(Ease.Linear);
 		m_currentRoom.OnEnter(this);
 	}
 
@@ -63,11 +72,19 @@ public class EntityCard : MonoBehaviour
 		m_currentActionPoints[ActionCardData.ActionCardType.Attack] = m_data.attackActionPoint;
 		m_currentActionPoints[ActionCardData.ActionCardType.Movement] = m_data.movementActionPoint;
 		m_currentActionPoints[ActionCardData.ActionCardType.Special] = m_data.specialActionPoint;
+
+		m_actionsTMP.text = m_currentActionPoints[ActionCardData.ActionCardType.Attack]
+			+ "/" + m_currentActionPoints[ActionCardData.ActionCardType.Movement]
+			+ "/" + m_currentActionPoints[ActionCardData.ActionCardType.Special];
 	}
 
 	public void SpendActionPoint ( ActionCardData.ActionCardType _type )
 	{
 		m_currentActionPoints[_type]--;
+
+		m_actionsTMP.text = m_currentActionPoints[ActionCardData.ActionCardType.Attack]
+			+ "/" + m_currentActionPoints[ActionCardData.ActionCardType.Movement]
+			+ "/" + m_currentActionPoints[ActionCardData.ActionCardType.Special];
 	}
 
 	public bool HasActionPointsToSpend ()
@@ -152,6 +169,8 @@ public class EntityCard : MonoBehaviour
 	{
 		m_currentHP -= _amount;
 
+		m_hpTMP.text = m_currentHP + "/" + m_data.hp;
+
 		if (m_currentHP <= 0)
 			Death();
 	}
@@ -161,5 +180,6 @@ public class EntityCard : MonoBehaviour
 		m_isAlive = false;
 
 		onDeath?.Invoke(this);
+		Destroy(gameObject);
 	}
 }
